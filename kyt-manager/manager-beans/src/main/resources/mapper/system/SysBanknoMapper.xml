@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysBanknoMapper">
+    
+    <resultMap type="SysBankno" id="SysBanknoResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="account"    column="account"    />
+        <result property="bankno"    column="bankno"    />
+        <result property="bank"    column="bank"    />
+        <result property="userid"    column="userid"    />
+        <result property="state"    column="state"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="bankAddress"    column="bank_address"    />
+    </resultMap>
+
+    <sql id="selectSysBanknoVo">
+        select id, type, account, bankno, bank, userid, state, create_time, bank_address from sys_bankno
+    </sql>
+
+    <select id="selectSysBanknoList" parameterType="SysBankno" resultMap="SysBanknoResult">
+        <include refid="selectSysBanknoVo"/>
+        <where>  
+            <if test="type != null "> and type = #{type}</if>
+            <if test="account != null  and account != ''"> and account = #{account}</if>
+            <if test="bankno != null  and bankno != ''"> and bankno = #{bankno}</if>
+            <if test="bank != null  and bank != ''"> and bank = #{bank}</if>
+            <if test="userid != null "> and userid = #{userid}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="bankAddress != null  and bankAddress != ''"> and bank_address = #{bankAddress}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysBanknoById" parameterType="Long" resultMap="SysBanknoResult">
+        <include refid="selectSysBanknoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysBankno" parameterType="SysBankno">
+        insert into sys_bankno
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="type != null ">type,</if>
+            <if test="account != null  and account != ''">account,</if>
+            <if test="bankno != null  and bankno != ''">bankno,</if>
+            <if test="bank != null  and bank != ''">bank,</if>
+            <if test="userid != null ">userid,</if>
+            <if test="state != null ">state,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="bankAddress != null  and bankAddress != ''">bank_address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="account != null  and account != ''">#{account},</if>
+            <if test="bankno != null  and bankno != ''">#{bankno},</if>
+            <if test="bank != null  and bank != ''">#{bank},</if>
+            <if test="userid != null ">#{userid},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="bankAddress != null  and bankAddress != ''">#{bankAddress},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysBankno" parameterType="SysBankno">
+        update sys_bankno
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null ">type = #{type},</if>
+            <if test="account != null  and account != ''">account = #{account},</if>
+            <if test="bankno != null  and bankno != ''">bankno = #{bankno},</if>
+            <if test="bank != null  and bank != ''">bank = #{bank},</if>
+            <if test="userid != null ">userid = #{userid},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="bankAddress != null  and bankAddress != ''">bank_address = #{bankAddress},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysBanknoById" parameterType="Long">
+        delete from sys_bankno where id = #{id}
+    </delete>
+
+    <delete id="deleteSysBanknoByIds" parameterType="String">
+        delete from sys_bankno where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

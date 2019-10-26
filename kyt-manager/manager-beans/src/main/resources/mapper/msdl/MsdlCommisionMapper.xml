@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.msdl.mapper.MsdlCommisionMapper">
+    
+    <resultMap type="MsdlCommision" id="MsdlCommisionResult">
+        <result property="day"    column="day"    />
+        <result property="type"    column="type"    />
+        <result property="msdlAgent"    column="msdl_agent"    />
+        <result property="level"    column="level"    />
+        <result property="orderCount"    column="order_count"    />
+        <result property="successsCount"    column="successs_count"    />
+        <result property="payAmount"    column="pay_amount"    />
+        <result property="income"    column="income"    />
+        <result property="commision"    column="commision"    />
+        <result property="rate"    column="rate"    />
+    </resultMap>
+
+    <sql id="selectMsdlCommisionVo">
+        select day, type, msdl_agent, level, order_count, successs_count, pay_amount, income, commision, rate from msdl_commision
+    </sql>
+
+    <select id="selectMsdlCommisionList" parameterType="MsdlCommision" resultMap="MsdlCommisionResult">
+        <include refid="selectMsdlCommisionVo"/>
+        <where>  
+            <if test="level != null "> and level = #{level}</if>
+            <if test="orderCount != null "> and order_count = #{orderCount}</if>
+            <if test="successsCount != null "> and successs_count = #{successsCount}</if>
+            <if test="payAmount != null "> and pay_amount = #{payAmount}</if>
+            <if test="income != null "> and income = #{income}</if>
+            <if test="commision != null "> and commision = #{commision}</if>
+            <if test="rate != null "> and rate = #{rate}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsdlCommisionById" parameterType="Date" resultMap="MsdlCommisionResult">
+        <include refid="selectMsdlCommisionVo"/>
+        where day = #{day}
+    </select>
+        
+    <insert id="insertMsdlCommision" parameterType="MsdlCommision">
+        insert into msdl_commision
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="day != null ">day,</if>
+            <if test="type != null ">type,</if>
+            <if test="msdlAgent != null ">msdl_agent,</if>
+            <if test="level != null ">level,</if>
+            <if test="orderCount != null ">order_count,</if>
+            <if test="successsCount != null ">successs_count,</if>
+            <if test="payAmount != null ">pay_amount,</if>
+            <if test="income != null ">income,</if>
+            <if test="commision != null ">commision,</if>
+            <if test="rate != null ">rate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="day != null ">#{day},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="msdlAgent != null ">#{msdlAgent},</if>
+            <if test="level != null ">#{level},</if>
+            <if test="orderCount != null ">#{orderCount},</if>
+            <if test="successsCount != null ">#{successsCount},</if>
+            <if test="payAmount != null ">#{payAmount},</if>
+            <if test="income != null ">#{income},</if>
+            <if test="commision != null ">#{commision},</if>
+            <if test="rate != null ">#{rate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsdlCommision" parameterType="MsdlCommision">
+        update msdl_commision
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null ">type = #{type},</if>
+            <if test="msdlAgent != null ">msdl_agent = #{msdlAgent},</if>
+            <if test="level != null ">level = #{level},</if>
+            <if test="orderCount != null ">order_count = #{orderCount},</if>
+            <if test="successsCount != null ">successs_count = #{successsCount},</if>
+            <if test="payAmount != null ">pay_amount = #{payAmount},</if>
+            <if test="income != null ">income = #{income},</if>
+            <if test="commision != null ">commision = #{commision},</if>
+            <if test="rate != null ">rate = #{rate},</if>
+        </trim>
+        where day = #{day}
+    </update>
+
+    <delete id="deleteMsdlCommisionById" parameterType="Date">
+        delete from msdl_commision where day = #{day}
+    </delete>
+
+    <delete id="deleteMsdlCommisionByIds" parameterType="String">
+        delete from msdl_commision where day in 
+        <foreach item="day" collection="array" open="(" separator="," close=")">
+            #{day}
+        </foreach>
+    </delete>
+    
+</mapper>

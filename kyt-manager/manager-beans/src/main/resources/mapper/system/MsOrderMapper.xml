@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MsOrderMapper">
+    
+    <resultMap type="MsOrder" id="MsOrderResult">
+        <result property="id"    column="id"    />
+        <result property="merchantId"    column="merchant_id"    />
+        <result property="merchantType"    column="merchant_type"    />
+        <result property="type"    column="type"    />
+        <result property="originBlance"    column="origin_blance"    />
+        <result property="money"    column="money"    />
+        <result property="blance"    column="blance"    />
+        <result property="createDate"    column="create_date"    />
+    </resultMap>
+
+    <sql id="selectMsOrderVo">
+        select id, merchant_id, merchant_type, type, origin_blance, money, blance, create_date from ms_order
+    </sql>
+
+    <select id="selectMsOrderList" parameterType="MsOrder" resultMap="MsOrderResult">
+        <include refid="selectMsOrderVo"/>
+        <where>  
+            <if test="merchantId != null "> and merchant_id = #{merchantId}</if>
+            <if test="merchantType != null "> and merchant_type = #{merchantType}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="originBlance != null "> and origin_blance = #{originBlance}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="blance != null  and blance != ''"> and blance = #{blance}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsOrderById" parameterType="String" resultMap="MsOrderResult">
+        <include refid="selectMsOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsOrder" parameterType="MsOrder">
+        insert into ms_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="merchantId != null ">merchant_id,</if>
+            <if test="merchantType != null ">merchant_type,</if>
+            <if test="type != null ">type,</if>
+            <if test="originBlance != null ">origin_blance,</if>
+            <if test="money != null ">money,</if>
+            <if test="blance != null  and blance != ''">blance,</if>
+            <if test="createDate != null ">create_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="merchantId != null ">#{merchantId},</if>
+            <if test="merchantType != null ">#{merchantType},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="originBlance != null ">#{originBlance},</if>
+            <if test="money != null ">#{money},</if>
+            <if test="blance != null  and blance != ''">#{blance},</if>
+            <if test="createDate != null ">#{createDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsOrder" parameterType="MsOrder">
+        update ms_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id = #{merchantId},</if>
+            <if test="merchantType != null ">merchant_type = #{merchantType},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="originBlance != null ">origin_blance = #{originBlance},</if>
+            <if test="money != null ">money = #{money},</if>
+            <if test="blance != null  and blance != ''">blance = #{blance},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsOrderById" parameterType="String">
+        delete from ms_order where id = #{id}
+    </delete>
+
+    <delete id="deleteMsOrderByIds" parameterType="String">
+        delete from ms_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

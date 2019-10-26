@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tj.mapper.TjHsorderStatusMapper">
+    
+    <resultMap type="TjHsorderStatus" id="TjHsorderStatusResult">
+        <result property="serverId"    column="server_id"    />
+        <result property="tradeType"    column="trade_type"    />
+        <result property="tradeCount"    column="trade_count"    />
+        <result property="nullRate"    column="null_rate"    />
+        <result property="msFinishOrder"    column="ms_finish_order"    />
+        <result property="systemFinishOrder"    column="system_finish_order"    />
+        <result property="timeoutOrder"    column="timeout_order_"    />
+        <result property="timeoutOrderNopay"    column="timeout_order_nopay"    />
+        <result property="orderComfirm"    column="order_comfirm"    />
+        <result property="orderWaiting"    column="order_waiting"    />
+        <result property="orderReceive"    column="order_receive"    />
+        <result property="orderWaitingTimeout"    column="order_waiting_timeout"    />
+        <result property="orderClose"    column="order_close"    />
+    </resultMap>
+
+    <sql id="selectTjHsorderStatusVo">
+        select server_id, trade_type, trade_count, null_rate, ms_finish_order, system_finish_order, timeout_order_, timeout_order_nopay, order_comfirm, order_waiting, order_receive, order_waiting_timeout, order_close from tj_hsorder_status
+    </sql>
+
+    <select id="selectTjHsorderStatusList" parameterType="TjHsorderStatus" resultMap="TjHsorderStatusResult">
+        <include refid="selectTjHsorderStatusVo"/>
+        <where>  
+            <if test="tradeCount != null "> and trade_count = #{tradeCount}</if>
+            <if test="nullRate != null "> and null_rate = #{nullRate}</if>
+            <if test="msFinishOrder != null "> and ms_finish_order = #{msFinishOrder}</if>
+            <if test="systemFinishOrder != null "> and system_finish_order = #{systemFinishOrder}</if>
+            <if test="timeoutOrder != null "> and timeout_order_ = #{timeoutOrder}</if>
+            <if test="timeoutOrderNopay != null "> and timeout_order_nopay = #{timeoutOrderNopay}</if>
+            <if test="orderComfirm != null "> and order_comfirm = #{orderComfirm}</if>
+            <if test="orderWaiting != null "> and order_waiting = #{orderWaiting}</if>
+            <if test="orderReceive != null "> and order_receive = #{orderReceive}</if>
+            <if test="orderWaitingTimeout != null "> and order_waiting_timeout = #{orderWaitingTimeout}</if>
+            <if test="orderClose != null "> and order_close = #{orderClose}</if>
+        </where>
+    </select>
+    
+    <select id="selectTjHsorderStatusById" parameterType="Long" resultMap="TjHsorderStatusResult">
+        <include refid="selectTjHsorderStatusVo"/>
+        where server_id = #{serverId}
+    </select>
+        
+    <insert id="insertTjHsorderStatus" parameterType="TjHsorderStatus">
+        insert into tj_hsorder_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serverId != null ">server_id,</if>
+            <if test="tradeType != null ">trade_type,</if>
+            <if test="tradeCount != null ">trade_count,</if>
+            <if test="nullRate != null ">null_rate,</if>
+            <if test="msFinishOrder != null ">ms_finish_order,</if>
+            <if test="systemFinishOrder != null ">system_finish_order,</if>
+            <if test="timeoutOrder != null ">timeout_order_,</if>
+            <if test="timeoutOrderNopay != null ">timeout_order_nopay,</if>
+            <if test="orderComfirm != null ">order_comfirm,</if>
+            <if test="orderWaiting != null ">order_waiting,</if>
+            <if test="orderReceive != null ">order_receive,</if>
+            <if test="orderWaitingTimeout != null ">order_waiting_timeout,</if>
+            <if test="orderClose != null ">order_close,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serverId != null ">#{serverId},</if>
+            <if test="tradeType != null ">#{tradeType},</if>
+            <if test="tradeCount != null ">#{tradeCount},</if>
+            <if test="nullRate != null ">#{nullRate},</if>
+            <if test="msFinishOrder != null ">#{msFinishOrder},</if>
+            <if test="systemFinishOrder != null ">#{systemFinishOrder},</if>
+            <if test="timeoutOrder != null ">#{timeoutOrder},</if>
+            <if test="timeoutOrderNopay != null ">#{timeoutOrderNopay},</if>
+            <if test="orderComfirm != null ">#{orderComfirm},</if>
+            <if test="orderWaiting != null ">#{orderWaiting},</if>
+            <if test="orderReceive != null ">#{orderReceive},</if>
+            <if test="orderWaitingTimeout != null ">#{orderWaitingTimeout},</if>
+            <if test="orderClose != null ">#{orderClose},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTjHsorderStatus" parameterType="TjHsorderStatus">
+        update tj_hsorder_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tradeType != null ">trade_type = #{tradeType},</if>
+            <if test="tradeCount != null ">trade_count = #{tradeCount},</if>
+            <if test="nullRate != null ">null_rate = #{nullRate},</if>
+            <if test="msFinishOrder != null ">ms_finish_order = #{msFinishOrder},</if>
+            <if test="systemFinishOrder != null ">system_finish_order = #{systemFinishOrder},</if>
+            <if test="timeoutOrder != null ">timeout_order_ = #{timeoutOrder},</if>
+            <if test="timeoutOrderNopay != null ">timeout_order_nopay = #{timeoutOrderNopay},</if>
+            <if test="orderComfirm != null ">order_comfirm = #{orderComfirm},</if>
+            <if test="orderWaiting != null ">order_waiting = #{orderWaiting},</if>
+            <if test="orderReceive != null ">order_receive = #{orderReceive},</if>
+            <if test="orderWaitingTimeout != null ">order_waiting_timeout = #{orderWaitingTimeout},</if>
+            <if test="orderClose != null ">order_close = #{orderClose},</if>
+        </trim>
+        where server_id = #{serverId}
+    </update>
+
+    <delete id="deleteTjHsorderStatusById" parameterType="Long">
+        delete from tj_hsorder_status where server_id = #{serverId}
+    </delete>
+
+    <delete id="deleteTjHsorderStatusByIds" parameterType="String">
+        delete from tj_hsorder_status where server_id in 
+        <foreach item="serverId" collection="array" open="(" separator="," close=")">
+            #{serverId}
+        </foreach>
+    </delete>
+    
+</mapper>

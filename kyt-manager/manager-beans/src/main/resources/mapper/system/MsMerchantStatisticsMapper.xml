@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MsMerchantStatisticsMapper">
+    
+    <resultMap type="MsMerchantStatistics" id="MsMerchantStatisticsResult">
+        <result property="merchantId"    column="merchant_id"    />
+        <result property="merchantType"    column="merchant_type"    />
+        <result property="amount"    column="amount"    />
+        <result property="freezeAmount"    column="freeze_amount"    />
+        <result property="wechatCount"    column="wechat_count"    />
+        <result property="wechatSuccessCount"    column="wechat_success_count"    />
+        <result property="wechatSuccessAmount"    column="wechat_success_amount"    />
+        <result property="alipayCout"    column="alipay_cout"    />
+        <result property="alipaySuccessCount"    column="alipay_success_count"    />
+        <result property="alipaySuccessAmount"    column="alipay_success_amount"    />
+    </resultMap>
+
+    <sql id="selectMsMerchantStatisticsVo">
+        select merchant_id, merchant_type, amount, freeze_amount, wechat_count, wechat_success_count, wechat_success_amount, alipay_cout, alipay_success_count, alipay_success_amount from ms_merchant_statistics
+    </sql>
+
+    <select id="selectMsMerchantStatisticsList" parameterType="MsMerchantStatistics" resultMap="MsMerchantStatisticsResult">
+        <include refid="selectMsMerchantStatisticsVo"/>
+        <where>  
+            <if test="merchantType != null "> and merchant_type = #{merchantType}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="freezeAmount != null "> and freeze_amount = #{freezeAmount}</if>
+            <if test="wechatCount != null "> and wechat_count = #{wechatCount}</if>
+            <if test="wechatSuccessCount != null "> and wechat_success_count = #{wechatSuccessCount}</if>
+            <if test="wechatSuccessAmount != null "> and wechat_success_amount = #{wechatSuccessAmount}</if>
+            <if test="alipayCout != null "> and alipay_cout = #{alipayCout}</if>
+            <if test="alipaySuccessCount != null "> and alipay_success_count = #{alipaySuccessCount}</if>
+            <if test="alipaySuccessAmount != null "> and alipay_success_amount = #{alipaySuccessAmount}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsMerchantStatisticsById" parameterType="Long" resultMap="MsMerchantStatisticsResult">
+        <include refid="selectMsMerchantStatisticsVo"/>
+        where merchant_id = #{merchantId}
+    </select>
+        
+    <insert id="insertMsMerchantStatistics" parameterType="MsMerchantStatistics">
+        insert into ms_merchant_statistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id,</if>
+            <if test="merchantType != null ">merchant_type,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="freezeAmount != null ">freeze_amount,</if>
+            <if test="wechatCount != null ">wechat_count,</if>
+            <if test="wechatSuccessCount != null ">wechat_success_count,</if>
+            <if test="wechatSuccessAmount != null ">wechat_success_amount,</if>
+            <if test="alipayCout != null ">alipay_cout,</if>
+            <if test="alipaySuccessCount != null ">alipay_success_count,</if>
+            <if test="alipaySuccessAmount != null ">alipay_success_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">#{merchantId},</if>
+            <if test="merchantType != null ">#{merchantType},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="freezeAmount != null ">#{freezeAmount},</if>
+            <if test="wechatCount != null ">#{wechatCount},</if>
+            <if test="wechatSuccessCount != null ">#{wechatSuccessCount},</if>
+            <if test="wechatSuccessAmount != null ">#{wechatSuccessAmount},</if>
+            <if test="alipayCout != null ">#{alipayCout},</if>
+            <if test="alipaySuccessCount != null ">#{alipaySuccessCount},</if>
+            <if test="alipaySuccessAmount != null ">#{alipaySuccessAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsMerchantStatistics" parameterType="MsMerchantStatistics">
+        update ms_merchant_statistics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="merchantType != null ">merchant_type = #{merchantType},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="freezeAmount != null ">freeze_amount = #{freezeAmount},</if>
+            <if test="wechatCount != null ">wechat_count = #{wechatCount},</if>
+            <if test="wechatSuccessCount != null ">wechat_success_count = #{wechatSuccessCount},</if>
+            <if test="wechatSuccessAmount != null ">wechat_success_amount = #{wechatSuccessAmount},</if>
+            <if test="alipayCout != null ">alipay_cout = #{alipayCout},</if>
+            <if test="alipaySuccessCount != null ">alipay_success_count = #{alipaySuccessCount},</if>
+            <if test="alipaySuccessAmount != null ">alipay_success_amount = #{alipaySuccessAmount},</if>
+        </trim>
+        where merchant_id = #{merchantId}
+    </update>
+
+    <delete id="deleteMsMerchantStatisticsById" parameterType="Long">
+        delete from ms_merchant_statistics where merchant_id = #{merchantId}
+    </delete>
+
+    <delete id="deleteMsMerchantStatisticsByIds" parameterType="String">
+        delete from ms_merchant_statistics where merchant_id in 
+        <foreach item="merchantId" collection="array" open="(" separator="," close=")">
+            #{merchantId}
+        </foreach>
+    </delete>
+    
+</mapper>

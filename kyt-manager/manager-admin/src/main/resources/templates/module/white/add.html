@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增手机白名单')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-white-add">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">手机号：</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="phone" class="form-control" placeholder="请输入文本">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "module/white"
+        $("#form-white-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-white-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MsWechatMapper">
+    
+    <resultMap type="MsWechat" id="MsWechatResult">
+        <result property="id"    column="id"    />
+        <result property="merchantId"    column="merchant_id"    />
+        <result property="merchantAccount"    column="merchant_account"    />
+        <result property="wechatName"    column="wechat_name"    />
+        <result property="state"    column="state"    />
+        <result property="lastTradeTime"    column="last_trade_time"    />
+    </resultMap>
+
+    <sql id="selectMsWechatVo">
+        select id, merchant_id, merchant_account, wechat_name, state, last_trade_time from ms_wechat
+    </sql>
+
+    <select id="selectMsWechatList" parameterType="MsWechat" resultMap="MsWechatResult">
+        <include refid="selectMsWechatVo"/>
+        <where>  
+            <if test="merchantId != null "> and merchant_id = #{merchantId}</if>
+            <if test="merchantAccount != null  and merchantAccount != ''"> and merchant_account = #{merchantAccount}</if>
+            <if test="wechatName != null  and wechatName != ''"> and wechat_name like concat('%', #{wechatName}, '%')</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="lastTradeTime != null "> and last_trade_time = #{lastTradeTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsWechatById" parameterType="Long" resultMap="MsWechatResult">
+        <include refid="selectMsWechatVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsWechat" parameterType="MsWechat" useGeneratedKeys="true" keyProperty="id">
+        insert into ms_wechat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id,</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">merchant_account,</if>
+            <if test="wechatName != null  and wechatName != ''">wechat_name,</if>
+            <if test="state != null ">state,</if>
+            <if test="lastTradeTime != null ">last_trade_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">#{merchantId},</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">#{merchantAccount},</if>
+            <if test="wechatName != null  and wechatName != ''">#{wechatName},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="lastTradeTime != null ">#{lastTradeTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsWechat" parameterType="MsWechat">
+        update ms_wechat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id = #{merchantId},</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">merchant_account = #{merchantAccount},</if>
+            <if test="wechatName != null  and wechatName != ''">wechat_name = #{wechatName},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="lastTradeTime != null ">last_trade_time = #{lastTradeTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsWechatById" parameterType="Long">
+        delete from ms_wechat where id = #{id}
+    </delete>
+
+    <delete id="deleteMsWechatByIds" parameterType="String">
+        delete from ms_wechat where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

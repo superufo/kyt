@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增商户订单状态统计')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-status-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总订单数：</label>
+                <div class="col-sm-8">
+                    <input name="tradeCount" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">空单率：</label>
+                <div class="col-sm-8">
+                    <input name="nullRate" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">码商已完成：</label>
+                <div class="col-sm-8">
+                    <input name="msFinishOrder" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">系统完成：</label>
+                <div class="col-sm-8">
+                    <input name="systemFinishOrder" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">超时未到账：</label>
+                <div class="col-sm-8">
+                    <input name="timeoutOrder" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">超时未付款：</label>
+                <div class="col-sm-8">
+                    <input name="timeoutOrderNopay" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会员已确认付款：</label>
+                <div class="col-sm-8">
+                    <input name="orderComfirm" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">等待接单：</label>
+                <div class="col-sm-8">
+                    <input name="orderWaiting" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">已接单：</label>
+                <div class="col-sm-8">
+                    <input name="orderReceive" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">接单超时：</label>
+                <div class="col-sm-8">
+                    <input name="orderWaitingTimeout" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">失败已关闭：</label>
+                <div class="col-sm-8">
+                    <input name="orderClose" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "ts/status"
+        $("#form-status-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-status-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

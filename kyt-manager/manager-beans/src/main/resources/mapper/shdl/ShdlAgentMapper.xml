@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shdl.mapper.ShdlAgentMapper">
+    
+    <resultMap type="ShdlAgent" id="ShdlAgentResult">
+        <result property="id"    column="id"    />
+        <result property="parantId"    column="parant_id"    />
+        <result property="name"    column="name"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="passwd"    column="passwd"    />
+        <result property="wxCommissionAmount"    column="wx_commission_amount"    />
+        <result property="wxCommissionRate"    column="wx_commission_rate"    />
+        <result property="aliCommissionAmount"    column="ali_commission_amount"    />
+        <result property="aliCommissionRate"    column="ali_commission_rate"    />
+        <result property="amount"    column="amount"    />
+        <result property="freezeAmount"    column="freeze_amount"    />
+        <result property="state"    column="state"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectShdlAgentVo">
+        select id, parant_id, name, mobile, passwd, wx_commission_amount, wx_commission_rate, ali_commission_amount, ali_commission_rate, amount, freeze_amount, state, remark, create_time from shdl_agent
+    </sql>
+
+    <select id="selectShdlAgentList" parameterType="ShdlAgent" resultMap="ShdlAgentResult">
+        <include refid="selectShdlAgentVo"/>
+        <where>  
+            <if test="parantId != null "> and parant_id = #{parantId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="passwd != null  and passwd != ''"> and passwd = #{passwd}</if>
+            <if test="wxCommissionAmount != null "> and wx_commission_amount = #{wxCommissionAmount}</if>
+            <if test="wxCommissionRate != null "> and wx_commission_rate = #{wxCommissionRate}</if>
+            <if test="aliCommissionAmount != null "> and ali_commission_amount = #{aliCommissionAmount}</if>
+            <if test="aliCommissionRate != null "> and ali_commission_rate = #{aliCommissionRate}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="freezeAmount != null "> and freeze_amount = #{freezeAmount}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectShdlAgentById" parameterType="Long" resultMap="ShdlAgentResult">
+        <include refid="selectShdlAgentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertShdlAgent" parameterType="ShdlAgent" useGeneratedKeys="true" keyProperty="id">
+        insert into shdl_agent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parantId != null ">parant_id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="passwd != null  and passwd != ''">passwd,</if>
+            <if test="wxCommissionAmount != null ">wx_commission_amount,</if>
+            <if test="wxCommissionRate != null ">wx_commission_rate,</if>
+            <if test="aliCommissionAmount != null ">ali_commission_amount,</if>
+            <if test="aliCommissionRate != null ">ali_commission_rate,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="freezeAmount != null ">freeze_amount,</if>
+            <if test="state != null ">state,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parantId != null ">#{parantId},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="passwd != null  and passwd != ''">#{passwd},</if>
+            <if test="wxCommissionAmount != null ">#{wxCommissionAmount},</if>
+            <if test="wxCommissionRate != null ">#{wxCommissionRate},</if>
+            <if test="aliCommissionAmount != null ">#{aliCommissionAmount},</if>
+            <if test="aliCommissionRate != null ">#{aliCommissionRate},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="freezeAmount != null ">#{freezeAmount},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShdlAgent" parameterType="ShdlAgent">
+        update shdl_agent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parantId != null ">parant_id = #{parantId},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="passwd != null  and passwd != ''">passwd = #{passwd},</if>
+            <if test="wxCommissionAmount != null ">wx_commission_amount = #{wxCommissionAmount},</if>
+            <if test="wxCommissionRate != null ">wx_commission_rate = #{wxCommissionRate},</if>
+            <if test="aliCommissionAmount != null ">ali_commission_amount = #{aliCommissionAmount},</if>
+            <if test="aliCommissionRate != null ">ali_commission_rate = #{aliCommissionRate},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="freezeAmount != null ">freeze_amount = #{freezeAmount},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShdlAgentById" parameterType="Long">
+        delete from shdl_agent where id = #{id}
+    </delete>
+
+    <delete id="deleteShdlAgentByIds" parameterType="String">
+        delete from shdl_agent where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

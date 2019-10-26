@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.sh.mapper.ShApplyMapper">
+    
+    <resultMap type="ShApply" id="ShApplyResult">
+        <result property="id"    column="id"    />
+        <result property="serverId"    column="server_id"    />
+        <result property="serverName"    column="server_name"    />
+        <result property="serverAccount"    column="server_account"    />
+        <result property="qq"    column="qq"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectShApplyVo">
+        select id, server_id, server_name, server_account, qq, mobile, apply_time, status, remark from sh_apply
+    </sql>
+
+    <select id="selectShApplyList" parameterType="ShApply" resultMap="ShApplyResult">
+        <include refid="selectShApplyVo"/>
+        <where>  
+            <if test="serverId != null "> and server_id = #{serverId}</if>
+            <if test="serverName != null  and serverName != ''"> and server_name like concat('%', #{serverName}, '%')</if>
+            <if test="serverAccount != null  and serverAccount != ''"> and server_account = #{serverAccount}</if>
+            <if test="qq != null  and qq != ''"> and qq = #{qq}</if>
+            <if test="mobile != null "> and mobile = #{mobile}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectShApplyById" parameterType="Long" resultMap="ShApplyResult">
+        <include refid="selectShApplyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertShApply" parameterType="ShApply" useGeneratedKeys="true" keyProperty="id">
+        insert into sh_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serverId != null ">server_id,</if>
+            <if test="serverName != null  and serverName != ''">server_name,</if>
+            <if test="serverAccount != null  and serverAccount != ''">server_account,</if>
+            <if test="qq != null  and qq != ''">qq,</if>
+            <if test="mobile != null ">mobile,</if>
+            <if test="applyTime != null ">apply_time,</if>
+            <if test="status != null ">status,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serverId != null ">#{serverId},</if>
+            <if test="serverName != null  and serverName != ''">#{serverName},</if>
+            <if test="serverAccount != null  and serverAccount != ''">#{serverAccount},</if>
+            <if test="qq != null  and qq != ''">#{qq},</if>
+            <if test="mobile != null ">#{mobile},</if>
+            <if test="applyTime != null ">#{applyTime},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShApply" parameterType="ShApply">
+        update sh_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="serverId != null ">server_id = #{serverId},</if>
+            <if test="serverName != null  and serverName != ''">server_name = #{serverName},</if>
+            <if test="serverAccount != null  and serverAccount != ''">server_account = #{serverAccount},</if>
+            <if test="qq != null  and qq != ''">qq = #{qq},</if>
+            <if test="mobile != null ">mobile = #{mobile},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteShApplyById" parameterType="Long">
+        delete from sh_apply where id = #{id}
+    </delete>
+
+    <delete id="deleteShApplyByIds" parameterType="String">
+        delete from sh_apply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

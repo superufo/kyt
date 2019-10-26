@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MsApplyMapper">
+    
+    <resultMap type="MsApply" id="MsApplyResult">
+        <result property="id"    column="id"    />
+        <result property="merchantId"    column="merchant_id"    />
+        <result property="merchantName"    column="merchant_name"    />
+        <result property="merchantAccount"    column="merchant_account"    />
+        <result property="qq"    column="qq"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMsApplyVo">
+        select id, merchant_id, merchant_name, merchant_account, qq, mobile, apply_time, status, remark from ms_apply
+    </sql>
+
+    <select id="selectMsApplyList" parameterType="MsApply" resultMap="MsApplyResult">
+        <include refid="selectMsApplyVo"/>
+        <where>  
+            <if test="merchantId != null "> and merchant_id = #{merchantId}</if>
+            <if test="merchantName != null  and merchantName != ''"> and merchant_name like concat('%', #{merchantName}, '%')</if>
+            <if test="merchantAccount != null  and merchantAccount != ''"> and merchant_account = #{merchantAccount}</if>
+            <if test="qq != null  and qq != ''"> and qq = #{qq}</if>
+            <if test="mobile != null "> and mobile = #{mobile}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsApplyById" parameterType="Long" resultMap="MsApplyResult">
+        <include refid="selectMsApplyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsApply" parameterType="MsApply" useGeneratedKeys="true" keyProperty="id">
+        insert into ms_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id,</if>
+            <if test="merchantName != null  and merchantName != ''">merchant_name,</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">merchant_account,</if>
+            <if test="qq != null  and qq != ''">qq,</if>
+            <if test="mobile != null ">mobile,</if>
+            <if test="applyTime != null ">apply_time,</if>
+            <if test="status != null ">status,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="merchantId != null ">#{merchantId},</if>
+            <if test="merchantName != null  and merchantName != ''">#{merchantName},</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">#{merchantAccount},</if>
+            <if test="qq != null  and qq != ''">#{qq},</if>
+            <if test="mobile != null ">#{mobile},</if>
+            <if test="applyTime != null ">#{applyTime},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsApply" parameterType="MsApply">
+        update ms_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="merchantId != null ">merchant_id = #{merchantId},</if>
+            <if test="merchantName != null  and merchantName != ''">merchant_name = #{merchantName},</if>
+            <if test="merchantAccount != null  and merchantAccount != ''">merchant_account = #{merchantAccount},</if>
+            <if test="qq != null  and qq != ''">qq = #{qq},</if>
+            <if test="mobile != null ">mobile = #{mobile},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsApplyById" parameterType="Long">
+        delete from ms_apply where id = #{id}
+    </delete>
+
+    <delete id="deleteMsApplyByIds" parameterType="String">
+        delete from ms_apply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

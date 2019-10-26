@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.MerchantMapper">
+    
+    <resultMap type="Merchant" id="MerchantResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="ip"    column="ip"    />
+        <result property="mchId"    column="mch_id"    />
+        <result property="apiKey"    column="api_key"    />
+        <result property="depict"    column="depict"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMerchantVo">
+        select id, name, ip, mch_id, api_key, depict, create_time, update_time from merchant
+    </sql>
+
+    <select id="selectMerchantList" parameterType="Merchant" resultMap="MerchantResult">
+        <include refid="selectMerchantVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="ip != null  and ip != ''"> and ip like concat('%', #{ip}, '%')</if>
+            <if test="mchId != null  and mchId != ''"> and mch_id like concat('%', #{mchId}, '%')</if>
+            <if test="apiKey != null  and apiKey != ''"> and api_key like concat('%', #{apiKey}, '%')</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMerchantById" parameterType="Long" resultMap="MerchantResult">
+        <include refid="selectMerchantVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMerchant" parameterType="Merchant" useGeneratedKeys="true" keyProperty="id">
+        insert into merchant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="ip != null  and ip != ''">ip,</if>
+            <if test="mchId != null  and mchId != ''">mch_id,</if>
+            <if test="apiKey != null  and apiKey != ''">api_key,</if>
+            <if test="depict != null  and depict != ''">depict,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="ip != null  and ip != ''">#{ip},</if>
+            <if test="mchId != null  and mchId != ''">#{mchId},</if>
+            <if test="apiKey != null  and apiKey != ''">#{apiKey},</if>
+            <if test="depict != null  and depict != ''">#{depict},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMerchant" parameterType="Merchant">
+        update merchant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="ip != null  and ip != ''">ip = #{ip},</if>
+            <if test="mchId != null  and mchId != ''">mch_id = #{mchId},</if>
+            <if test="apiKey != null  and apiKey != ''">api_key = #{apiKey},</if>
+            <if test="depict != null  and depict != ''">depict = #{depict},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMerchantById" parameterType="Long">
+        delete from merchant where id = #{id}
+    </delete>
+
+    <delete id="deleteMerchantByIds" parameterType="String">
+        delete from merchant where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

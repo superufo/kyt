@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tj.mapper.TjMsorderStatusMapper">
+    
+    <resultMap type="TjMsorderStatus" id="TjMsorderStatusResult">
+        <result property="msMerchant"    column="ms_merchant"    />
+        <result property="timeLength"    column="time_length"    />
+        <result property="tradeType"    column="trade_type"    />
+        <result property="totalOrderCount"    column="total_order_count"    />
+        <result property="orderTimeout"    column="order_timeout"    />
+        <result property="orderAmount"    column="order_amount"    />
+        <result property="orderTimeoutAmount"    column="order_timeout_amount"    />
+    </resultMap>
+
+    <sql id="selectTjMsorderStatusVo">
+        select ms_merchant, time_length, trade_type, total_order_count, order_timeout, order_amount, order_timeout_amount from tj_msorder_status
+    </sql>
+
+    <select id="selectTjMsorderStatusList" parameterType="TjMsorderStatus" resultMap="TjMsorderStatusResult">
+        <include refid="selectTjMsorderStatusVo"/>
+        <where>  
+            <if test="totalOrderCount != null "> and total_order_count = #{totalOrderCount}</if>
+            <if test="orderTimeout != null "> and order_timeout = #{orderTimeout}</if>
+            <if test="orderAmount != null "> and order_amount = #{orderAmount}</if>
+            <if test="orderTimeoutAmount != null  and orderTimeoutAmount != ''"> and order_timeout_amount = #{orderTimeoutAmount}</if>
+        </where>
+    </select>
+    
+    <select id="selectTjMsorderStatusById" parameterType="Long" resultMap="TjMsorderStatusResult">
+        <include refid="selectTjMsorderStatusVo"/>
+        where ms_merchant = #{msMerchant}
+    </select>
+        
+    <insert id="insertTjMsorderStatus" parameterType="TjMsorderStatus">
+        insert into tj_msorder_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="msMerchant != null ">ms_merchant,</if>
+            <if test="timeLength != null ">time_length,</if>
+            <if test="tradeType != null ">trade_type,</if>
+            <if test="totalOrderCount != null ">total_order_count,</if>
+            <if test="orderTimeout != null ">order_timeout,</if>
+            <if test="orderAmount != null ">order_amount,</if>
+            <if test="orderTimeoutAmount != null  and orderTimeoutAmount != ''">order_timeout_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="msMerchant != null ">#{msMerchant},</if>
+            <if test="timeLength != null ">#{timeLength},</if>
+            <if test="tradeType != null ">#{tradeType},</if>
+            <if test="totalOrderCount != null ">#{totalOrderCount},</if>
+            <if test="orderTimeout != null ">#{orderTimeout},</if>
+            <if test="orderAmount != null ">#{orderAmount},</if>
+            <if test="orderTimeoutAmount != null  and orderTimeoutAmount != ''">#{orderTimeoutAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTjMsorderStatus" parameterType="TjMsorderStatus">
+        update tj_msorder_status
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="timeLength != null ">time_length = #{timeLength},</if>
+            <if test="tradeType != null ">trade_type = #{tradeType},</if>
+            <if test="totalOrderCount != null ">total_order_count = #{totalOrderCount},</if>
+            <if test="orderTimeout != null ">order_timeout = #{orderTimeout},</if>
+            <if test="orderAmount != null ">order_amount = #{orderAmount},</if>
+            <if test="orderTimeoutAmount != null  and orderTimeoutAmount != ''">order_timeout_amount = #{orderTimeoutAmount},</if>
+        </trim>
+        where ms_merchant = #{msMerchant}
+    </update>
+
+    <delete id="deleteTjMsorderStatusById" parameterType="Long">
+        delete from tj_msorder_status where ms_merchant = #{msMerchant}
+    </delete>
+
+    <delete id="deleteTjMsorderStatusByIds" parameterType="String">
+        delete from tj_msorder_status where ms_merchant in 
+        <foreach item="msMerchant" collection="array" open="(" separator="," close=")">
+            #{msMerchant}
+        </foreach>
+    </delete>
+    
+</mapper>

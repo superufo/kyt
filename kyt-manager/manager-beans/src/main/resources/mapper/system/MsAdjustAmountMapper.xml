@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MsAdjustAmountMapper">
+    
+    <resultMap type="MsAdjustAmount" id="MsAdjustAmountResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="merchantId"    column="merchant_id"    />
+        <result property="type"    column="type"    />
+        <result property="amount"    column="amount"    />
+        <result property="approve"    column="approve"    />
+        <result property="applyer"    column="applyer"    />
+        <result property="approver"    column="approver"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="approveTime"    column="approve_time"    />
+    </resultMap>
+
+    <sql id="selectMsAdjustAmountVo">
+        select id, order_id, merchant_id, type, amount, approve, applyer, approver, apply_time, approve_time from ms_adjust_amount
+    </sql>
+
+    <select id="selectMsAdjustAmountList" parameterType="MsAdjustAmount" resultMap="MsAdjustAmountResult">
+        <include refid="selectMsAdjustAmountVo"/>
+        <where>  
+            <if test="orderId != null  and orderId != ''"> and order_id = #{orderId}</if>
+            <if test="merchantId != null "> and merchant_id = #{merchantId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="approve != null "> and approve = #{approve}</if>
+            <if test="applyer != null  and applyer != ''"> and applyer = #{applyer}</if>
+            <if test="approver != null  and approver != ''"> and approver = #{approver}</if>
+            <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+            <if test="approveTime != null "> and approve_time = #{approveTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMsAdjustAmountById" parameterType="Long" resultMap="MsAdjustAmountResult">
+        <include refid="selectMsAdjustAmountVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMsAdjustAmount" parameterType="MsAdjustAmount" useGeneratedKeys="true" keyProperty="id">
+        insert into ms_adjust_amount
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id,</if>
+            <if test="merchantId != null ">merchant_id,</if>
+            <if test="type != null ">type,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="approve != null ">approve,</if>
+            <if test="applyer != null  and applyer != ''">applyer,</if>
+            <if test="approver != null  and approver != ''">approver,</if>
+            <if test="applyTime != null ">apply_time,</if>
+            <if test="approveTime != null ">approve_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">#{orderId},</if>
+            <if test="merchantId != null ">#{merchantId},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="approve != null ">#{approve},</if>
+            <if test="applyer != null  and applyer != ''">#{applyer},</if>
+            <if test="approver != null  and approver != ''">#{approver},</if>
+            <if test="applyTime != null ">#{applyTime},</if>
+            <if test="approveTime != null ">#{approveTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMsAdjustAmount" parameterType="MsAdjustAmount">
+        update ms_adjust_amount
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''">order_id = #{orderId},</if>
+            <if test="merchantId != null ">merchant_id = #{merchantId},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="approve != null ">approve = #{approve},</if>
+            <if test="applyer != null  and applyer != ''">applyer = #{applyer},</if>
+            <if test="approver != null  and approver != ''">approver = #{approver},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="approveTime != null ">approve_time = #{approveTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMsAdjustAmountById" parameterType="Long">
+        delete from ms_adjust_amount where id = #{id}
+    </delete>
+
+    <delete id="deleteMsAdjustAmountByIds" parameterType="String">
+        delete from ms_adjust_amount where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

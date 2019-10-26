@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.tj.mapper.TjBillReportMapper">
+    
+    <resultMap type="TjBillReport" id="TjBillReportResult">
+        <result property="id"    column="id"    />
+        <result property="wechatAmount"    column="wechat_amount"    />
+        <result property="alipayAmount"    column="alipay_amount"    />
+        <result property="totalAmount"    column="total_amount"    />
+        <result property="msCommission"    column="ms_commission"    />
+        <result property="shServiceCharge"    column="sh_service_charge"    />
+        <result property="msAdjustUpamount"    column="ms_adjust_upamount"    />
+        <result property="msAdjustDownamount"    column="ms_adjust_downamount"    />
+        <result property="shAdjustUpamount"    column="sh_adjust_upamount"    />
+        <result property="shAdjustDownamount"    column="sh_adjust_downamount"    />
+        <result property="servicePayAmount"    column="service_pay_amount"    />
+        <result property="shFetchAmount"    column="sh_fetch_amount"    />
+    </resultMap>
+
+    <sql id="selectTjBillReportVo">
+        select id, wechat_amount, alipay_amount, total_amount, ms_commission, sh_service_charge, ms_adjust_upamount, ms_adjust_downamount, sh_adjust_upamount, sh_adjust_downamount, service_pay_amount, sh_fetch_amount from tj_bill_report
+    </sql>
+
+    <select id="selectTjBillReportList" parameterType="TjBillReport" resultMap="TjBillReportResult">
+        <include refid="selectTjBillReportVo"/>
+        <where>  
+            <if test="wechatAmount != null "> and wechat_amount = #{wechatAmount}</if>
+            <if test="alipayAmount != null "> and alipay_amount = #{alipayAmount}</if>
+            <if test="totalAmount != null "> and total_amount = #{totalAmount}</if>
+            <if test="msCommission != null "> and ms_commission = #{msCommission}</if>
+            <if test="shServiceCharge != null "> and sh_service_charge = #{shServiceCharge}</if>
+            <if test="msAdjustUpamount != null "> and ms_adjust_upamount = #{msAdjustUpamount}</if>
+            <if test="msAdjustDownamount != null "> and ms_adjust_downamount = #{msAdjustDownamount}</if>
+            <if test="shAdjustUpamount != null "> and sh_adjust_upamount = #{shAdjustUpamount}</if>
+            <if test="shAdjustDownamount != null "> and sh_adjust_downamount = #{shAdjustDownamount}</if>
+            <if test="servicePayAmount != null "> and service_pay_amount = #{servicePayAmount}</if>
+            <if test="shFetchAmount != null  and shFetchAmount != ''"> and sh_fetch_amount = #{shFetchAmount}</if>
+        </where>
+    </select>
+    
+    <select id="selectTjBillReportById" parameterType="Long" resultMap="TjBillReportResult">
+        <include refid="selectTjBillReportVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTjBillReport" parameterType="TjBillReport" useGeneratedKeys="true" keyProperty="id">
+        insert into tj_bill_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="wechatAmount != null ">wechat_amount,</if>
+            <if test="alipayAmount != null ">alipay_amount,</if>
+            <if test="totalAmount != null ">total_amount,</if>
+            <if test="msCommission != null ">ms_commission,</if>
+            <if test="shServiceCharge != null ">sh_service_charge,</if>
+            <if test="msAdjustUpamount != null ">ms_adjust_upamount,</if>
+            <if test="msAdjustDownamount != null ">ms_adjust_downamount,</if>
+            <if test="shAdjustUpamount != null ">sh_adjust_upamount,</if>
+            <if test="shAdjustDownamount != null ">sh_adjust_downamount,</if>
+            <if test="servicePayAmount != null ">service_pay_amount,</if>
+            <if test="shFetchAmount != null  and shFetchAmount != ''">sh_fetch_amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="wechatAmount != null ">#{wechatAmount},</if>
+            <if test="alipayAmount != null ">#{alipayAmount},</if>
+            <if test="totalAmount != null ">#{totalAmount},</if>
+            <if test="msCommission != null ">#{msCommission},</if>
+            <if test="shServiceCharge != null ">#{shServiceCharge},</if>
+            <if test="msAdjustUpamount != null ">#{msAdjustUpamount},</if>
+            <if test="msAdjustDownamount != null ">#{msAdjustDownamount},</if>
+            <if test="shAdjustUpamount != null ">#{shAdjustUpamount},</if>
+            <if test="shAdjustDownamount != null ">#{shAdjustDownamount},</if>
+            <if test="servicePayAmount != null ">#{servicePayAmount},</if>
+            <if test="shFetchAmount != null  and shFetchAmount != ''">#{shFetchAmount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTjBillReport" parameterType="TjBillReport">
+        update tj_bill_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wechatAmount != null ">wechat_amount = #{wechatAmount},</if>
+            <if test="alipayAmount != null ">alipay_amount = #{alipayAmount},</if>
+            <if test="totalAmount != null ">total_amount = #{totalAmount},</if>
+            <if test="msCommission != null ">ms_commission = #{msCommission},</if>
+            <if test="shServiceCharge != null ">sh_service_charge = #{shServiceCharge},</if>
+            <if test="msAdjustUpamount != null ">ms_adjust_upamount = #{msAdjustUpamount},</if>
+            <if test="msAdjustDownamount != null ">ms_adjust_downamount = #{msAdjustDownamount},</if>
+            <if test="shAdjustUpamount != null ">sh_adjust_upamount = #{shAdjustUpamount},</if>
+            <if test="shAdjustDownamount != null ">sh_adjust_downamount = #{shAdjustDownamount},</if>
+            <if test="servicePayAmount != null ">service_pay_amount = #{servicePayAmount},</if>
+            <if test="shFetchAmount != null  and shFetchAmount != ''">sh_fetch_amount = #{shFetchAmount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTjBillReportById" parameterType="Long">
+        delete from tj_bill_report where id = #{id}
+    </delete>
+
+    <delete id="deleteTjBillReportByIds" parameterType="String">
+        delete from tj_bill_report where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

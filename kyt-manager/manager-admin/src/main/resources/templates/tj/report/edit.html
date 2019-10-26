@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改 对账统计报')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-report-edit" th:object="${tjBillReport}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">微信成功交易金额：</label>
+                <div class="col-sm-8">
+                    <input name="wechatAmount" th:field="*{wechatAmount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付宝成功交易金额：</label>
+                <div class="col-sm-8">
+                    <input name="alipayAmount" th:field="*{alipayAmount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总交易成功金额：</label>
+                <div class="col-sm-8">
+                    <input name="totalAmount" th:field="*{totalAmount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">码商佣金：</label>
+                <div class="col-sm-8">
+                    <input name="msCommission" th:field="*{msCommission}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商户会员付款手续费：</label>
+                <div class="col-sm-8">
+                    <input name="shServiceCharge" th:field="*{shServiceCharge}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">码商账户微调上款：</label>
+                <div class="col-sm-8">
+                    <input name="msAdjustUpamount" th:field="*{msAdjustUpamount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">码商账户微调下款：</label>
+                <div class="col-sm-8">
+                    <input name="msAdjustDownamount" th:field="*{msAdjustDownamount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商户账户微调上款：</label>
+                <div class="col-sm-8">
+                    <input name="shAdjustUpamount" th:field="*{shAdjustUpamount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商户账户微调下款：</label>
+                <div class="col-sm-8">
+                    <input name="shAdjustDownamount" th:field="*{shAdjustDownamount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">服务码商充值金额：</label>
+                <div class="col-sm-8">
+                    <input name="servicePayAmount" th:field="*{servicePayAmount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商户提现金额：</label>
+                <div class="col-sm-8">
+                    <input name="shFetchAmount" th:field="*{shFetchAmount}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "ts/report";
+        $("#form-report-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-report-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

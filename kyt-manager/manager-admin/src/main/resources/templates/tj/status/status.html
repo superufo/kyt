@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商户订单状态统计列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>总订单数：</p>
+                                <input type="text" name="tradeCount"/>
+                            </li>
+                            <li>
+                                <p>空单率：</p>
+                                <input type="text" name="nullRate"/>
+                            </li>
+                            <li>
+                                <p>码商已完成：</p>
+                                <input type="text" name="msFinishOrder"/>
+                            </li>
+                            <li>
+                                <p>系统完成：</p>
+                                <input type="text" name="systemFinishOrder"/>
+                            </li>
+                            <li>
+                                <p>超时未到账：</p>
+                                <input type="text" name="timeoutOrder"/>
+                            </li>
+                            <li>
+                                <p>超时未付款：</p>
+                                <input type="text" name="timeoutOrderNopay"/>
+                            </li>
+                            <li>
+                                <p>会员已确认付款：</p>
+                                <input type="text" name="orderComfirm"/>
+                            </li>
+                            <li>
+                                <p>等待接单：</p>
+                                <input type="text" name="orderWaiting"/>
+                            </li>
+                            <li>
+                                <p>已接单：</p>
+                                <input type="text" name="orderReceive"/>
+                            </li>
+                            <li>
+                                <p>接单超时：</p>
+                                <input type="text" name="orderWaitingTimeout"/>
+                            </li>
+                            <li>
+                                <p>失败已关闭：</p>
+                                <input type="text" name="orderClose"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="ts:status:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="ts:status:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="ts:status:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="ts:status:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('ts:status:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('ts:status:remove')}]];
+        var prefix = ctx + "ts/status";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商户订单状态统计",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'serverId', 
+                    title : '商户编号',
+                    visible: false
+                },
+                {
+                    field : 'tradeType', 
+                    title : '交易类型',
+                    visible: false
+                },
+                {
+                    field : 'tradeCount', 
+                    title : '总订单数'
+                },
+                {
+                    field : 'nullRate', 
+                    title : '空单率'
+                },
+                {
+                    field : 'msFinishOrder', 
+                    title : '码商已完成'
+                },
+                {
+                    field : 'systemFinishOrder', 
+                    title : '系统完成'
+                },
+                {
+                    field : 'timeoutOrder', 
+                    title : '超时未到账'
+                },
+                {
+                    field : 'timeoutOrderNopay', 
+                    title : '超时未付款'
+                },
+                {
+                    field : 'orderComfirm', 
+                    title : '会员已确认付款'
+                },
+                {
+                    field : 'orderWaiting', 
+                    title : '等待接单'
+                },
+                {
+                    field : 'orderReceive', 
+                    title : '已接单'
+                },
+                {
+                    field : 'orderWaitingTimeout', 
+                    title : '接单超时'
+                },
+                {
+                    field : 'orderClose', 
+                    title : '失败已关闭'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.serverId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.serverId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

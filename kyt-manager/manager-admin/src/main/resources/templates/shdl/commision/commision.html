@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商户代理返佣统计列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>层级：</p>
+                                <input type="text" name="level"/>
+                            </li>
+                            <li>
+                                <p>总订单数：</p>
+                                <input type="text" name="orderCount"/>
+                            </li>
+                            <li>
+                                <p>完成订单数：</p>
+                                <input type="text" name="successsCount"/>
+                            </li>
+                            <li>
+                                <p>充值金额：</p>
+                                <input type="text" name="payAmount"/>
+                            </li>
+                            <li>
+                                <p>到账金额：</p>
+                                <input type="text" name="income"/>
+                            </li>
+                            <li>
+                                <p>佣金：</p>
+                                <input type="text" name="commision"/>
+                            </li>
+                            <li>
+                                <p>成功率
+：</p>
+                                <input type="text" name="rate"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shdl:commision:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shdl:commision:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shdl:commision:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shdl:commision:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('shdl:commision:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shdl:commision:remove')}]];
+        var prefix = ctx + "shdl/commision";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商户代理返佣统计",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'day', 
+                    title : '统计日期',
+                    visible: false
+                },
+                {
+                    field : 'type', 
+                    title : '类型',
+                    visible: false
+                },
+                {
+                    field : 'msdlAgent', 
+                    title : '商户代理编号',
+                    visible: false
+                },
+                {
+                    field : 'level', 
+                    title : '层级'
+                },
+                {
+                    field : 'orderCount', 
+                    title : '总订单数'
+                },
+                {
+                    field : 'successsCount', 
+                    title : '完成订单数'
+                },
+                {
+                    field : 'payAmount', 
+                    title : '充值金额'
+                },
+                {
+                    field : 'income', 
+                    title : '到账金额'
+                },
+                {
+                    field : 'commision', 
+                    title : '佣金'
+                },
+                {
+                    field : 'rate', 
+                    title : '成功率'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.day + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.day + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
